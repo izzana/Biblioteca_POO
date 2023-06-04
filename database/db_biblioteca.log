@@ -1,3 +1,0 @@
-/*C2*/SET SCHEMA PUBLIC
-CREATE TABLE usuario_tem_livro (id IDENTITY PRIMARY KEY,id_livro INTEGER,id_usuario INTEGER,FOREIGN KEY(id_livro) REFERENCES livros(id),FOREIGN KEY(id_usuario) REFERENCES usuario(id))
-DISCONNECT
