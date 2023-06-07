@@ -4,17 +4,38 @@
  */
 package model.usuario;
 
+import java.sql.SQLException;
+import usuario.dao.UsuarioDAO;
+
 /**
  *
  * @author izzana
  */
 public class Usuario {
     private int id;
-    private String nome, cpf, email, telefone, login, senha;
 
+    public Usuario() {
+    }
+    private String nome, cpf, email, telefone, login, senha;
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        UsuarioDAO dao2 = new UsuarioDAO();
+        Usuario usuario = new Usuario("asdfas","ajlads","jakdsçfl","ajflidsf", "kjhjkhjk", "opasuif");
+        dao2.salvar(usuario);
+        dao2.obterTodosUsuarios();
+    }
     public Usuario(String cpf, String nome, String email, String telefone, String login, String senha) {
         this.nome = nome;
          this.cpf = cpf;
+        this.email = email;
+        this.telefone = telefone;
+        this.login = login;
+        this.senha = senha;
+    }
+    
+    public Usuario(int id, String cpf, String nome, String email, String telefone, String login, String senha) {
+        this.id = id;
+        this.nome = nome;
+        this.cpf = cpf;
         this.email = email;
         this.telefone = telefone;
         this.login = login;
