@@ -17,15 +17,29 @@ import java.util.logging.Logger;
  */
 public class LivroController {
     private LivroDao dao = new LivroDao();
-    public void buscaLivrosAutor(String autor){
-        try {
-            dao.buscaLivrosAutor(autor);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(LivroController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(LivroController.class.getName()).log(Level.SEVERE, null, ex);
+    
+    public void buscarLivrosPorAutor(String autor) {
+    LivroDao livroDAO = new LivroDao();
+    try {
+        List<Livros> livrosEncontrados = livroDAO.buscaLivrosAutor(autor);
+        if (!livrosEncontrados.isEmpty()) {
+            for (Livros livro : livrosEncontrados) {
+                System.out.println("Livro encontrado:");
+                System.out.println("Id: " + livro.getId());
+                System.out.println("Título: " + livro.getTitulo());
+                System.out.println("Autor: " + livro.getAutor());
+                System.out.println("Editora " + livro.getEditora());
+                System.out.println("Tipo Livro: " + livro.getTipoLivro());
+                System.out.println("Impresso: " + livro.isImpresso());
+                System.out.println("Local: " + livro.getLocal());
+            }
+        } else {
+            System.out.println("Nenhum livro encontrado para o autor: " + autor);
         }
+    } catch (ClassNotFoundException | SQLException e) {
+        System.out.println("Ocorreu um erro ao buscar os livros por autor: " + e.getMessage());
     }
+}
     
     public void salvar(Livros livro){
         try {
@@ -49,10 +63,14 @@ public class LivroController {
         return LivroDao.listaLivros;
     }
     
-        public static void main(String args[]) {
+        public static void main(String args[]) throws ClassNotFoundException, SQLException {
             LivroController livroController = new LivroController();
             Livros livro = new Livros("titulo", "autor", 1995, "editora", "terror", true, "comoda" );
+            Livros livro2 = new Livros("titulo2", "autor2", 19952, "editora2", "terror2", true, "comoda2" );
+            Livros livro3 = new Livros("titulo3", "autor", 1995, "editora", "terror", true, "comoda" );
             livroController.salvar(livro);
-            livroController.buscaLivrosAutor("autor");
+            livroController.salvar(livro2);
+            livroController.salvar(livro3);
+            livroController.buscarLivrosPorAutor("autor");
     }       
 }

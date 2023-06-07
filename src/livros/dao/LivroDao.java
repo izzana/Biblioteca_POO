@@ -86,16 +86,32 @@ public class LivroDao {
         this.pstmt.setBoolean(6, livro.isImpresso());
         this.pstmt.setString(7, livro.getLocal());
         this.pstmt.execute();
+        System.out.println("salvou");
     }
     
-    public Livros buscaLivrosAutor(String autor) throws ClassNotFoundException, SQLException{
+    public List<Livros> buscaLivrosAutor(String autorRecebido) throws ClassNotFoundException, SQLException{
         this.conectar();
+        this.criarStatement();
         String query = "SELECT * FROM livros "
                 + "WHERE autor = ?";
         this.criarPrepareStatement(query);
-        this.pstmt.setString(1, autor);
+        this.pstmt.setString(1, autorRecebido);
         ResultSet result = this.pstmt.executeQuery();
-        System.out.println(result);
-        return null;
+        
+        List<Livros> livros = new ArrayList();
+        
+        while(result.next()){
+            int id = result.getInt("id");
+            String titulo = result.getString("titulo");
+            String autor = result.getString("autor");
+            int anoPublicacao = result.getInt("ano_publicacao");
+            String editora = result.getString("editora");
+            String tipoLivro = result.getString("tipo_livro");
+            boolean impresso = result.getBoolean("impresso");
+            String localizacao = result.getString("localizacao");
+            Livros livro = new Livros(id, titulo, autor, anoPublicacao, editora, tipoLivro, impresso, localizacao);
+            livros.add(livro);
+        }   
+        return livros;
     }
 }
