@@ -6,6 +6,7 @@ package usuario.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
  * @author izzana
  */
 public class DatabaseUtil {
-    
+    private PreparedStatement pstmt;//preparado para substituir interrogações por valores
     private Connection conn;
     private Statement stmt;//possui métodos para fazermos manipulações no BD, como SELECT, CREATETABLE
     
@@ -31,7 +32,8 @@ public class DatabaseUtil {
                                     "email VARCHAR(50)," +
                                     "telefone VARCHAR(14)," +
                                     "login VARCHAR(50)," +
-                                    " senha VARCHAR(50));");
+                                    "senha VARCHAR(50));");
+            
             this.stmt.close();
             this.conn.close();
             System.out.println("Tabela usuarios criada com sucesso!");
@@ -47,6 +49,11 @@ public class DatabaseUtil {
         DatabaseUtil util = new DatabaseUtil();
         util.createUsuarioTable();
     }
+
+    private void criarPreparedStatement(String query) throws SQLException {//criar instância da classe statement
+        this.pstmt = this.conn.prepareStatement(query); 
+    }
+    
 }
 
 

@@ -27,6 +27,8 @@ public class DatabaseUtil {
             this.stmt.executeUpdate("CREATE TABLE usuario_tem_livro (id IDENTITY PRIMARY KEY,"+ //executeUpdate -> executa comandos no BD
                                     "id_livro INTEGER," +
                                     "id_usuario INTEGER," +
+                                    "data_emprestimo DATE,"  + 
+                                    "data_devolucao DATE" +
                                     "FOREIGN KEY(id_livro) REFERENCES livros(id)," +
                                     "FOREIGN KEY(id_usuario) REFERENCES usuario(id));");
             this.stmt.close();
