@@ -29,11 +29,11 @@ public class UsuarioDAO {
         this.conn = DriverManager.getConnection("jdbc:hsqldb:file:./database/db_biblioteca");
     }
     
-    private void criarStatement() throws SQLException {//criar instância da classe statement
+    private void criarStatement() throws SQLException {
         this.stmt = this.conn.createStatement(); 
     }
     
-     private void criarPreparedStatement(String query) throws SQLException {//criar instância da classe statement
+     private void criarPreparedStatement(String query) throws SQLException {
         this.pstmt = this.conn.prepareStatement(query); 
     }
     
@@ -49,15 +49,6 @@ public class UsuarioDAO {
         }
     }
     
-    private Usuario buscaContato(int id) { //é privado pois só será usado nessa classe //transformar pra ir pra o bd
-        for(Usuario contato: UsuarioDAO.listaContatos) {
-            if(contato.getId() == id) {
-                return contato;
-            }
-        }
-        return null;
-    }
-    
     public void salvar(Usuario usuario) throws ClassNotFoundException, SQLException {
 
         this.conectar();
@@ -66,7 +57,7 @@ public class UsuarioDAO {
                 + "VALUES (?, ?, ?, ?, ?, ?)"
                 ;
         this.criarPreparedStatement(query);
-        this.pstmt.setString(1, usuario.getNome());//1 -> primeira interrogação para substituir
+        this.pstmt.setString(1, usuario.getNome());
         this.pstmt.setString(2, usuario.getCpf());
         this.pstmt.setString(3, usuario.getEmail());
         this.pstmt.setString(4, usuario.getTelefone());
@@ -99,11 +90,11 @@ public class UsuarioDAO {
     public void remover(int id) throws ClassNotFoundException, SQLException {
         this.conectar();
         System.out.println("conectou");
-        String query = "DELETE FROM usuario " //criando query que vai remover os dados
+        String query = "DELETE FROM usuario "
                 + "WHERE id=?";
         this.criarPreparedStatement(query);
         this.pstmt.setInt(1, id);
-        this.pstmt.executeUpdate();//não passamos a query como parâmetro, por isso usamos como execute
+        this.pstmt.executeUpdate();
         this.desconectar();
         this.desconectar();
         System.out.println("Usuário removido com o sucesso");
