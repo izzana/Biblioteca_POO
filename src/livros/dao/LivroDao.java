@@ -70,6 +70,7 @@ public class LivroDao {
         this.pstmt.setString(6, livro.getLocal());
         this.pstmt.setInt(7, livro.getId());
         this.pstmt.execute();
+        this.desconectar();
     }
     
     public void salvar(Livros livro) throws ClassNotFoundException, SQLException{
@@ -86,16 +87,18 @@ public class LivroDao {
         this.pstmt.setBoolean(6, livro.isImpresso());
         this.pstmt.setString(7, livro.getLocal());
         this.pstmt.execute();
+        this.desconectar();
         System.out.println("salvou");
+        
     }
     
     public List<Livros> buscaLivrosAutor(String autorRecebido) throws ClassNotFoundException, SQLException{
         this.conectar();
         this.criarStatement();
         String query = "SELECT * FROM livros "
-                + "WHERE autor = ?";
+                + "WHERE autor like ?";
         this.criarPrepareStatement(query);
-        this.pstmt.setString(1, autorRecebido);
+        this.pstmt.setString(1, '%' + autorRecebido + '%');
         ResultSet result = this.pstmt.executeQuery();
         
         List<Livros> livros = new ArrayList();
@@ -111,7 +114,37 @@ public class LivroDao {
             String localizacao = result.getString("localizacao");
             Livros livro = new Livros(id, titulo, autor, anoPublicacao, editora, tipoLivro, impresso, localizacao);
             livros.add(livro);
-        }   
+        }
+        this.desconectar();
+        return livros;
+    }
+    
+        public List<Livros> obterLivroPeloNome(String nomeLivro) throws ClassNotFoundException, SQLException {
+        this.conectar();
+        this.criarStatement();
+        
+        String query = "SELECT * FROM livros "
+                + "WHERE titulo like ?";
+        this.criarPrepareStatement(query);
+        this.pstmt.setString(1, '%' + nomeLivro + '%');
+        ResultSet rs = this.pstmt.executeQuery();
+        
+        List <Livros> livros = new ArrayList();
+        
+        while(rs.next()) {
+            int livroId = rs.getInt("id");
+            String titulo = rs.getString("titulo");
+            String autor = rs.getString("autor");
+            int anoPublicacao = rs.getInt("ano_publicacao");
+            String editora = rs.getString("editora");
+            String tipoLivro = rs.getString("tipo_livro");
+            boolean impresso = rs.getBoolean("impresso");
+            String localizacao = rs.getString("localizacao");
+
+            Livros livro = new Livros(livroId, titulo, autor, anoPublicacao, editora, tipoLivro, impresso, localizacao);
+            livros.add(livro);
+        }
+        this.desconectar();
         return livros;
     }
 }
