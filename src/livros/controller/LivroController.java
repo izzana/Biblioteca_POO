@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author angel
+ * @author angelo
  */
 public class LivroController {
     private LivroDao dao = new LivroDao();
@@ -39,7 +39,7 @@ public class LivroController {
     } catch (ClassNotFoundException | SQLException e) {
         System.out.println("Ocorreu um erro ao buscar os livros por autor: " + e.getMessage());
     }
-}
+} //funcionando
     
     public void salvar(Livros livro){
         try {
@@ -49,7 +49,8 @@ public class LivroController {
         } catch (SQLException ex) {
             Logger.getLogger(LivroController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    } //funcionando
+    
     public void atualizar(Livros livro){
         try {
             dao.atualizarLivro(livro);
@@ -58,19 +59,47 @@ public class LivroController {
         } catch (SQLException ex) {
             Logger.getLogger(LivroController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    public List<Livros> obterTodososLivros(){
-        return LivroDao.listaLivros;
-    }
+    } //funcionando
     
-        public static void main(String args[]) throws ClassNotFoundException, SQLException {
-            LivroController livroController = new LivroController();
-            Livros livro = new Livros("titulo", "autor", 1995, "editora", "terror", true, "comoda" );
-            Livros livro2 = new Livros("titulo2", "autor2", 19952, "editora2", "terror2", true, "comoda2" );
-            Livros livro3 = new Livros("titulo3", "autor", 1995, "editora", "terror", true, "comoda" );
-            livroController.salvar(livro);
-            livroController.salvar(livro2);
-            livroController.salvar(livro3);
-            livroController.buscarLivrosPorAutor("autor");
-    }       
+    public void obterLivrosPeloNome(String nomeLivro){
+        LivroDao livrosDao = new LivroDao();
+
+        try {
+            List<Livros> livrosEncontrados = livrosDao.obterLivroPeloNome(nomeLivro);
+            
+            if (!livrosEncontrados.isEmpty()) {
+                System.out.println("Livros encontrados com o titulo:" + nomeLivro);
+                for(Livros livro : livrosEncontrados){
+                    System.out.println("Id: " + livro.getId());
+                    System.out.println("Título: " + livro.getTitulo());
+                    System.out.println("Autor: " + livro.getAutor());
+                    System.out.println("Editora " + livro.getEditora());
+                    System.out.println("Tipo Livro: " + livro.getTipoLivro());
+                    System.out.println("Impresso: " + livro.isImpresso());
+                    System.out.println("Local: " + livro.getLocal());                    
+                }
+
+            } else {
+                System.out.println("Nenhum");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(LivroController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(LivroController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    } //funcionando
+    
+    public void remover(int id) {
+        try {
+            dao.remover(id);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(LivroController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(LivroController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }    //funcionando
+    
+
+   
 }
