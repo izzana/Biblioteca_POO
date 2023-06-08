@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package livros.utils;
+package biblioteca.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,16 +15,16 @@ import java.util.logging.Logger;
  *
  * @author angelo
  */
-public class DatabaseUtil {
+public class DatabaseUtilLivros {
         private Connection conn;
-        private Statement stmt;//possui métodos para fazermos manipulações no BD, como SELECT, CREATETABLE
+        private Statement stmt;
     
     public void createLivrosTable() {
         try {
-            Class.forName("org.hsqldb.jdbc.JDBCDriver"); //registrando no projeto onde está a o driver de conexão com o sqldb 
+            Class.forName("org.hsqldb.jdbc.JDBCDriver"); 
             this.conn = DriverManager.getConnection("jdbc:hsqldb:file:./database/db_biblioteca");
             this.stmt = this.conn.createStatement(); 
-            this.stmt.executeUpdate("CREATE TABLE livros (id IDENTITY PRIMARY KEY,"+ //executeUpdate -> executa comandos no BD
+            this.stmt.executeUpdate("CREATE TABLE livros (id IDENTITY PRIMARY KEY,"+ 
                                     "titulo VARCHAR(50)," +
                                     "autor VARCHAR(50)," +
                                     "ano_publicacao INTEGER," +
@@ -37,14 +37,14 @@ public class DatabaseUtil {
             System.out.println("Tabela livros criada com sucesso!");
         } catch (ClassNotFoundException ex) {
             System.out.println("Classe não encontrada");
-            Logger.getLogger(usuario.utils.DatabaseUtil.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(biblioteca.utils.DatabaseUtilUsuario.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(usuario.utils.DatabaseUtil.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(biblioteca.utils.DatabaseUtilUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     public static void main(String args[]) {
-        DatabaseUtil util = new DatabaseUtil();
+        DatabaseUtilLivros util = new DatabaseUtilLivros();
         util.createLivrosTable();
     }
 }

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package estudanteTemLivro.utils;
+package biblioteca.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author izzana
  */
-public class DatabaseUtil {
+public class DatabaseUtilUsuarioTemLivro {
     private Connection conn;
     private Statement stmt;//possui métodos para fazermos manipulações no BD, como SELECT, CREATETABLE
     
@@ -36,14 +36,14 @@ public class DatabaseUtil {
             System.out.println("Tabela usuario tem livro criada com sucesso!");
         } catch (ClassNotFoundException ex) {
             System.out.println("Classe não encontrada");
-            Logger.getLogger(usuario.utils.DatabaseUtil.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(biblioteca.utils.DatabaseUtilUsuario.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(usuario.utils.DatabaseUtil.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(biblioteca.utils.DatabaseUtilUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     public static void main(String args[]) {
-        DatabaseUtil util = new DatabaseUtil();
+        DatabaseUtilUsuarioTemLivro util = new DatabaseUtilUsuarioTemLivro();
         util.createUsuarioTemLivroTable();
     }
 }

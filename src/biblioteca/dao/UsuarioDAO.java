@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package usuario.dao;
+package biblioteca.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,21 +12,20 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import model.usuario.Usuario;
+import models.Usuario;
 
 /**
  *
  * @author izzana
  */
 public class UsuarioDAO {
-    //representando o banco de dados
     public static List<Usuario> listaContatos = new ArrayList();
     private Connection conn;
-    private Statement stmt;//possui métodos para fazermos manipulações no BD, como SELECT, CREATETABLE
-    private PreparedStatement pstmt;//preparado para substituir interrogações por valores
+    private Statement stmt;
+    private PreparedStatement pstmt;
             
     private void conectar() throws ClassNotFoundException, SQLException {
-        Class.forName("org.hsqldb.jdbc.JDBCDriver"); //registrando no projeto onde está a o driver de conexão com o sqldb 
+        Class.forName("org.hsqldb.jdbc.JDBCDriver"); 
         this.conn = DriverManager.getConnection("jdbc:hsqldb:file:./database/db_biblioteca");
     }
     
@@ -60,23 +59,9 @@ public class UsuarioDAO {
     }
     
     public void salvar(Usuario usuario) throws ClassNotFoundException, SQLException {
-        System.out.println("opa");
-        
-//        this.stmt.execute("insert into usuario (nome, cpf, email, telefone, login, senha) values ('name', 'cpf', 'email', 'telefone', 'login', 'senha')");
-//        System.out.println(this.stmt.execute("select * from usuario"));
+
         this.conectar();
-//        String query = "INSERT INTO usuario" //criando query que vai inserir os dados
-//                + "(nome, cpf, email, telefone, login, senha)"
-//                + "VALUES (?, ?, ?, ?, ?, ?)"
-//                ;
-//            this.criarPreparedStatement(query);
-//            this.pstmt.setString(1, "name");//1 -> primeira interrogação para substituir
-//            this.pstmt.setString(2, "c");
-//            this.pstmt.setString(3, "d");
-//            this.pstmt.setString(4, "t");
-//            this.pstmt.setString(5, "l");
-//            this.pstmt.setString(6, "s"); 
-        String query = "INSERT INTO usuario" //criando query que vai inserir os dados
+        String query = "INSERT INTO usuario" 
                 + "(nome, cpf, email, telefone, login, senha)"
                 + "VALUES (?, ?, ?, ?, ?, ?)"
                 ;
@@ -87,26 +72,28 @@ public class UsuarioDAO {
         this.pstmt.setString(4, usuario.getTelefone());
         this.pstmt.setString(5, usuario.getLogin());
         this.pstmt.setString(6, usuario.getSenha());
-        this.pstmt.executeUpdate();//não passamos a query como parâmetro, por isso usamos como execute
+        this.pstmt.executeUpdate();
+        this.desconectar();
         System.out.println("Usuário salvo com sucesso");
 
     }
     
     public void atualizar(Usuario usuario) throws SQLException, ClassNotFoundException {
         this.conectar();
-        String query = "UPDATE usuario " //criando query que vai inserir os dados
+        String query = "UPDATE usuario " 
                 + "SET nome=?, cpf=?, email=?, telefone=?, login=?, senha=? "
                 + "WHERE id =?";
         this.criarPreparedStatement(query);
-        this.pstmt.setString(1, usuario.getNome());//1 -> primeira interrogação para substituir
+        this.pstmt.setString(1, usuario.getNome());
         this.pstmt.setString(2, usuario.getCpf());
         this.pstmt.setString(3, usuario.getEmail());
         this.pstmt.setString(4, usuario.getTelefone());
         this.pstmt.setString(5, usuario.getLogin());
         this.pstmt.setString(6, usuario.getSenha());
         this.pstmt.setInt(7, usuario.getId());
-        this.pstmt.execute();//não passamos a query como parâmetro, por isso usamos como execute
-        System.out.println("Atualizado com sucesso");
+        this.pstmt.execute();
+        this.desconectar();
+        System.out.println("Usuário atualizado com sucesso");
     }
     
     public void remover(int id) throws ClassNotFoundException, SQLException {
@@ -117,6 +104,8 @@ public class UsuarioDAO {
         this.criarPreparedStatement(query);
         this.pstmt.setInt(1, id);
         this.pstmt.executeUpdate();//não passamos a query como parâmetro, por isso usamos como execute
+        this.desconectar();
+        this.desconectar();
         System.out.println("Usuário removido com o sucesso");
     }
     
@@ -128,8 +117,8 @@ public class UsuarioDAO {
         ResultSet rs = this.stmt.executeQuery(query);
         while(rs.next()) {
             int id = rs.getInt("id");
-            String cpf = rs.getString("cpf");
             String nome = rs.getString("nome");
+            String cpf = rs.getString("cpf");
             String email = rs.getString("email");
             String telefone = rs.getString("telefone");
             String login = rs.getString("login");
@@ -137,10 +126,11 @@ public class UsuarioDAO {
             Usuario usuario = new Usuario(id, cpf, nome, email, telefone, login, senha);
             usuarios.add(usuario);
         }
+        this.desconectar();
         return usuarios;
     }
     
-    public Usuario obterUsuario(int idUsuario) throws ClassNotFoundException, SQLException {
+    public Usuario obterUsuarioPorId(int idUsuario) throws ClassNotFoundException, SQLException {
         this.conectar();
         this.criarStatement();
         
@@ -153,16 +143,16 @@ public class UsuarioDAO {
         Usuario usuario = null;
         if (rs.next()) {
             int usuarioId = rs.getInt("id");
-            String cpf = rs.getString("cpf");
             String nome = rs.getString("nome");
+            String cpf = rs.getString("cpf");
             String email = rs.getString("email");
             String telefone = rs.getString("telefone");
             String login = rs.getString("login");
             String senha = rs.getString("senha");
 
-            usuario = new Usuario(usuarioId, cpf, nome, email, telefone, login, senha);
+            usuario = new Usuario(usuarioId, nome, cpf, email, telefone, login, senha);
         }
-
+        this.desconectar();
         return usuario;
     }
 }

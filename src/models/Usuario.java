@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package model.usuario;
+package models;
 
 import java.sql.SQLException;
-import usuario.dao.UsuarioDAO;
+import biblioteca.dao.UsuarioDAO;
 
 /**
  *
@@ -14,18 +14,14 @@ import usuario.dao.UsuarioDAO;
 public class Usuario {
     private int id;
 
+    private String nome, cpf, email, telefone, login, senha;
+    
     public Usuario() {
     }
-    private String nome, cpf, email, telefone, login, senha;
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        UsuarioDAO dao2 = new UsuarioDAO();
-        Usuario usuario = new Usuario("asdfas","ajlads","jakdsçfl","ajflidsf", "kjhjkhjk", "opasuif");
-        dao2.salvar(usuario);
-        dao2.obterTodosUsuarios();
-    }
-    public Usuario(String cpf, String nome, String email, String telefone, String login, String senha) {
+    
+    public Usuario(String nome, String cpf, String email, String telefone, String login, String senha) {
         this.nome = nome;
-         this.cpf = cpf;
+        this.cpf = cpf;
         this.email = email;
         this.telefone = telefone;
         this.login = login;

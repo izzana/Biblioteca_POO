@@ -1,7 +1,7 @@
 
-package livros.dao;
+package biblioteca.dao;
 
-import livros.model.Livros;
+import models.Livros;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -142,11 +142,11 @@ public class LivroDao {
     public void remover(int id) throws ClassNotFoundException, SQLException {
         this.conectar();
         System.out.println("conectou");
-        String query = "DELETE FROM livros " //criando query que vai remover os dados
+        String query = "DELETE FROM livros "
                 + "WHERE id=?";
         this.criarPrepareStatement(query);
         this.pstmt.setInt(1, id);
-        this.pstmt.executeUpdate();//não passamos a query como parâmetro, por isso usamos como execute
+        this.pstmt.executeUpdate();
         System.out.println("Livro removido com o sucesso");
         this.desconectar();
     }    

@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package livros.controller;
+package blibioteca.controllers;
 
 import java.sql.SQLException;
-import livros.dao.LivroDao;
-import livros.model.Livros;
+import biblioteca.dao.LivroDao;
+import models.Livros;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
