@@ -17,75 +17,7 @@ import usuario.dao.UsuarioDAO;
  */
 public class UsuarioController {
     private UsuarioDAO dao = new UsuarioDAO();
-    
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        UsuarioDAO dao2 = new UsuarioDAO();
-        Usuario usuario1 = new Usuario("asdfas","ajlads","jakdsçfl","ajflidsf", "qwer", "5678");
-        Usuario usuario2 = new Usuario("wert","pmnb","ftvw","zwvnm", "uop8", "8976");
-        dao2.salvar(usuario1);
-        dao2.salvar(usuario2);
-//        dao2.remover(1);
-//        dao2.obterTodosUsuarios();
-//        int id = usuario2.getId();
-//        Usuario usuarioObtido = dao2.obterUsuario(id);
-//        if (usuarioObtido != null) {
-//            System.out.println("Usuário obtido: ");
-//            System.out.println("ID: " + usuarioObtido.getId());
-//            System.out.println("Nome: " + usuarioObtido.getNome());
-//            System.out.println("Email: " + usuarioObtido.getEmail());
-//        } else {
-//            System.out.println("Usuário não encontrado.");
-//        }
-        List<Usuario> usuarios = dao2.obterTodosUsuarios();
 
-//        for (Usuario usuario : usuarios) {
-//            System.out.println("ID: " + usuario.getId());
-//            System.out.println("CPF: " + usuario.getCpf());
-//            System.out.println("Nome: " + usuario.getNome());
-//            System.out.println("Email: " + usuario.getEmail());
-//            System.out.println("Telefone: " + usuario.getTelefone());
-//            System.out.println("Login: " + usuario.getLogin());
-//            System.out.println("Senha: " + usuario.getSenha());
-//            System.out.println();
-//        }
-        
-//        System.out.println(dao2.obterUsuario(id));
-//        System.out.println("ID: " + usuario3.getId());
-//        System.out.println("CPF: " + usuario3.getCpf());
-//        System.out.println("Nome: " + usuario3.getNome());
-//        System.out.println("Email: " + usuario3.getEmail());
-//        System.out.println("Telefone: " + usuario3.getTelefone());
-//        System.out.println("Login: " + usuario3.getLogin());
-//        System.out.println("Senha: " + usuario3.getSenha());
-//        System.out.println();
-        
-        usuario2.setCpf("lsdalflsdaf");
-        dao2.atualizar(usuario2);
-        System.out.println("atualizado");
-                int id = usuario2.getId();
-        Usuario usuarioObtido = dao2.obterUsuario(id);
-        if (usuarioObtido != null) {
-            System.out.println("Usuário obtido: ");
-            System.out.println("ID: " + usuarioObtido.getId());
-            System.out.println("Nome: " + usuarioObtido.getNome());
-            System.out.println("Email: " + usuarioObtido.getEmail());
-            System.out.println("CPF: " + usuarioObtido.getCpf());
-        } else {
-            System.out.println("Usuário não encontrado.");
-        }
-//        for (Usuario usuario : usuarios) {
-//            System.out.println("ID: " + usuario.getId());
-//            System.out.println("CPF: " + usuario.getCpf());
-//            System.out.println("Nome: " + usuario.getNome());
-//            System.out.println("Email: " + usuario.getEmail());
-//            System.out.println("Telefone: " + usuario.getTelefone());
-//            System.out.println("Login: " + usuario.getLogin());
-//            System.out.println("Senha: " + usuario.getSenha());
-//            System.out.println();
-//        }
-        
-    }
-    
     public void salvar(Usuario usuario) {
         try {
             dao.salvar(usuario);
@@ -115,8 +47,54 @@ public class UsuarioController {
             Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-   public List<Usuario> obterTodosUsuarios() {
-        return UsuarioDAO.listaContatos;
+   
+   public void obterUsuarioPorId(int usuarioId) {
+        UsuarioDAO usuarioDAO1 = new UsuarioDAO();
+        try {
+            Usuario usuarioTeste = usuarioDAO1.obterUsuarioPorId(usuarioId);
+            if (usuarioTeste != null) {
+                System.out.println("Usuário encontrado:");
+                System.out.println("Id: " + usuarioTeste.getId());
+                System.out.println("Nome: " + usuarioTeste.getNome());
+                System.out.println("CPF: " + usuarioTeste.getCpf());
+                System.out.println("Email " + usuarioTeste.getEmail());
+                System.out.println("Telefone: " + usuarioTeste.getTelefone());
+                System.out.println("Login: " + usuarioTeste.getLogin());
+            } else {
+                System.out.println("Nenhum Usuário encontrado para o id: " + usuarioId);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println("Ocorreu um erro ao buscar os livros por autor: " + e.getMessage());
+        }
     }
+   
+   public void obterTodosUsuarios() {
+        UsuarioDAO usuarioDAO = new UsuarioDAO(); // substitua "UsuarioDao" pelo nome da classe que contém o método "obterTodosUsuarios()"
+    
+        try {
+            List<Usuario> usuarios;
+            usuarios = usuarioDAO.obterTodosUsuarios();
+            if (!usuarios.isEmpty()) {
+                System.out.println("Usuários cadastrados na Biblioteca");
+                for (Usuario usuario : usuarios) {
+                    System.out.println("ID: " + usuario.getId());
+                    System.out.println("Nome: " + usuario.getNome());
+                    System.out.println("CPF: " + usuario.getCpf());
+                    System.out.println("Email: " + usuario.getEmail());
+                    System.out.println("Telefone: " + usuario.getTelefone());
+                    System.out.println("Login: " + usuario.getLogin());
+                    System.out.println("Senha: " + usuario.getSenha());
+                    System.out.println("--------------------------------------");
+                }
+            } else {
+                System.out.println("Nenhum usuário encontrado.");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }
+
 }
