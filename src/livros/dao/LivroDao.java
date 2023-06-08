@@ -45,19 +45,10 @@ public class LivroDao {
         if(this.conn != null)
             this.conn.close();
     }
-    
-    private Livros buscaLivro(int id){
-        for(Livros livro: LivroDao.listaLivros){
-            if(livro.getId()== id){
-                return livro;
-            }        
-        }
-    return null;
-    }
 
     public void atualizarLivro(Livros livro) throws ClassNotFoundException, SQLException{
         this.conectar();
-        String query = "UPDATE livros"
+        String query = "UPDATE livros "
                 + "set titulo=?, autor=?, ano_publicacao=?, editora=?, "
                 + "impresso=?, localizacao=?"
                 + "WHERE id = ?";
@@ -98,7 +89,7 @@ public class LivroDao {
         String query = "SELECT * FROM livros "
                 + "WHERE autor like ?";
         this.criarPrepareStatement(query);
-        this.pstmt.setString(1, '%' + autorRecebido + '%');
+        this.pstmt.setString(1, '%' + autorRecebido +'%');
         ResultSet result = this.pstmt.executeQuery();
         
         List<Livros> livros = new ArrayList();
@@ -119,7 +110,7 @@ public class LivroDao {
         return livros;
     }
     
-        public List<Livros> obterLivroPeloNome(String nomeLivro) throws ClassNotFoundException, SQLException {
+    public List<Livros> obterLivroPeloNome(String nomeLivro) throws ClassNotFoundException, SQLException {
         this.conectar();
         this.criarStatement();
         
@@ -147,4 +138,17 @@ public class LivroDao {
         this.desconectar();
         return livros;
     }
+
+    public void remover(int id) throws ClassNotFoundException, SQLException {
+        this.conectar();
+        System.out.println("conectou");
+        String query = "DELETE FROM livros " //criando query que vai remover os dados
+                + "WHERE id=?";
+        this.criarPrepareStatement(query);
+        this.pstmt.setInt(1, id);
+        this.pstmt.executeUpdate();//não passamos a query como parâmetro, por isso usamos como execute
+        System.out.println("Livro removido com o sucesso");
+        this.desconectar();
+    }    
+    
 }

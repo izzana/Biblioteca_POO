@@ -39,7 +39,7 @@ public class LivroController {
     } catch (ClassNotFoundException | SQLException e) {
         System.out.println("Ocorreu um erro ao buscar os livros por autor: " + e.getMessage());
     }
-}
+} //funcionando
     
     public void salvar(Livros livro){
         try {
@@ -49,7 +49,8 @@ public class LivroController {
         } catch (SQLException ex) {
             Logger.getLogger(LivroController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    } //funcionando
+    
     public void atualizar(Livros livro){
         try {
             dao.atualizarLivro(livro);
@@ -58,11 +59,7 @@ public class LivroController {
         } catch (SQLException ex) {
             Logger.getLogger(LivroController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    
-//    public void obterTodososLivros(String nomeLivro){
-//
-//    }
+    } //funcionando
     
     public void obterLivrosPeloNome(String nomeLivro){
         LivroDao livrosDao = new LivroDao();
@@ -91,6 +88,18 @@ public class LivroController {
             Logger.getLogger(LivroController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    }
+    } //funcionando
+    
+    public void remover(int id) {
+        try {
+            dao.remover(id);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(LivroController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(LivroController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }    //funcionando
+    
+
    
 }
